@@ -2,15 +2,15 @@ version: '3.8'
 
 services:
     mysql:
-        image: mysql:8.0
-        container_name: hotel_db
+        image: mysql:latest
+        container_name: spring_hotel
         environment:
             MYSQL_DATABASE: hotel
             MYSQL_USER: admin
             MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: rootpassword
         ports:
-            - "3306:3306"
+            - "3308:3306"
         volumes:
             - mysql_data:/var/lib/mysql
 
