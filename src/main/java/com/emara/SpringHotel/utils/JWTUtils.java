@@ -2,6 +2,7 @@ package com.emara.SpringHotel.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,14 +34,16 @@ public class JWTUtils {
        this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
    }
 
-   public String generateToken(UserDetails userDetails) {
-       return Jwts.builder()
-               .subject(userDetails.getUsername())
-               .issuedAt(new Date(System.currentTimeMillis()))
-               .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-               .signWith(key)
-               .compact();
-   }
+    public String generateToken(UserDetails userDetails) {
+
+        System.out.println(userDetails);
+        return Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key, SignatureAlgorithm.HS256) // ✅ explicitly set algorithm
+                .compact();
+    }
 
    public String extractUsername(String token) {
        return extractClaims(token, Claims::getSubject);
