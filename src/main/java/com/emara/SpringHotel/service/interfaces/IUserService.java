@@ -7,9 +7,9 @@ import com.emara.SpringHotel.entity.User;
 public interface IUserService {
     ResponseDTO signupUser(User user);
     ResponseDTO loginUser(LoginRequestDTO loginRequest);
-    ResponseDTO getUserById(String userId);
+    ResponseDTO getUserById(Long userId);
     ResponseDTO getAllUsers();
     ResponseDTO getUserBookingHistory(String userId);
-    ResponseDTO deleteUser(String userId);
+    ResponseDTO deleteUser(Long userId);
     ResponseDTO getMyInfo(String userId);
 }

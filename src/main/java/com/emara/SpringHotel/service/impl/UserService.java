@@ -85,7 +85,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseDTO getUserById(String userId) {
+    public ResponseDTO getUserById(Long userId) {
         ResponseDTO response = new ResponseDTO();
 
         try {
@@ -151,7 +151,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseDTO deleteUser(String userId) {
+    public ResponseDTO deleteUser(Long userId) {
         ResponseDTO response = new ResponseDTO();
 
         try {
