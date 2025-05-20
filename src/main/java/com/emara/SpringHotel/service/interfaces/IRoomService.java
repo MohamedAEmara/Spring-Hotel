@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public interface IRoomService {
     ResponseDTO addNewRoom(MultipartFile image, String roomType, BigDecimal roomPrice, String description);
 
-    List<String> getAllRoomTypes();
+    ResponseDTO getAllRoomTypes();
 
     ResponseDTO getAllRooms();
 

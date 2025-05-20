@@ -23,4 +23,5 @@ public class ResponseDTO {
     private List<UserDTO> userList;
     private List<RoomDTO> roomList;
     private List<BookingDTO> bookingList;
+    private List<String> roomTypes;
 }
