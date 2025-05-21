@@ -1,56 +1,82 @@
 package com.emara.SpringHotel.service;
 
-
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.emara.SpringHotel.exceptions.CustomException;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.*;
 
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.UUID;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class AwsS3Service {
-    @Value("${aws-bucket-name}")
+
+    @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    @Value("${aws.s3.access.key}")
-    private String awsS3AccessKey;
+    @Value("${cloud.aws.region}")
+    private String region;
 
-    @Value("${aws.s3.secret.key}")
-    private String awsS3SecretKey;
+    @Value("${cloud.aws.credentials.access-key}")
+    private String accessKey;
+
+    @Value("${cloud.aws.credentials.secret-key}")
+    private String secretKey;
+
+    private S3Client s3Client;
+
+    @PostConstruct
+    private void initializeS3() {
+        s3Client = S3Client.builder()
+                .region(Region.of(region))
+                .credentialsProvider(
+                        StaticCredentialsProvider.create(
+                                AwsBasicCredentials.create(accessKey, secretKey)
+                        )
+                )
+                .build();
+    }
+
+    public String saveImageToS3(MultipartFile file) {
+    String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+    try {
+        PutObjectRequest putRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(fileName)
+                .contentType(file.getContentType())
+                .build();
+
+        s3Client.putObject(putRequest, RequestBody.fromBytes(file.getBytes()));
+
+        return getFileUrl(fileName);
+
+    } catch (IOException e) {
+        throw new RuntimeException("Failed to upload file", e);
+    }
+}
 
 
-    public String saveImageToS3(MultipartFile image) {
-        String s3LocationImage = null;
+    public void deleteFile(String fileName) {
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(fileName)
+                .build();
 
-        try {
-            String s3FileName = image.getOriginalFilename();
+        s3Client.deleteObject(deleteRequest);
+    }
 
-            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3AccessKey, awsS3SecretKey);
-            AmazonS3 amazonS3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                    .withRegion(Regions.US_EAST_1)
-                    .build();
-            InputStream inputStream = image.getInputStream();
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType("image/jpeg");
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3FileName, inputStream, objectMetadata);
-
-            amazonS3Client.putObject(putObjectRequest);
-            s3LocationImage = "https://" + bucketName + ".amazonaws.com/" + s3FileName;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new CustomException("Unable to upload image to s3 bucket!" + ex.getMessage());
-        }
-
-        return s3LocationImage;
+    private String getFileUrl(String fileName) {
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);
     }
 }
