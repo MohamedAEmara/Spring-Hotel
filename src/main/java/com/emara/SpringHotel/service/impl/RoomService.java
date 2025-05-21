@@ -59,7 +59,12 @@ public class RoomService implements IRoomService {
 
     @Override
     public ResponseDTO getAllRoomTypes() {
-        return roomRepository.findDistinctRoomTypes();
+        List<String> roomTypes = roomRepository.findDistinctRoomTypes();
+        ResponseDTO response = new ResponseDTO();
+        response.setStatusCode(200);
+        response.setMessage("Successfully retrieved room types");
+        response.setRoomTypes(roomTypes);
+        return response;
     }
 
     @Override
