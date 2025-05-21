@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
@@ -39,6 +38,7 @@ public class RoomService implements IRoomService {
             room.setRoomType(roomType);
             room.setRoomPrice(roomPrice);
             room.setRoomDescription(description);
+            room.setRoomPhotoUrl(imageURL);
 
             Room savedRoom = roomRepository.save(room);
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(room);
