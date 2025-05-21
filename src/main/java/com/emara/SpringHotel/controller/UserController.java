@@ -15,7 +15,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseDTO> getAllUsers() {
         ResponseDTO response = userService.getAllUsers();

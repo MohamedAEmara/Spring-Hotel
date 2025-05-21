@@ -43,7 +43,7 @@ public class RoomController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<ResponseDTO> getAllRooms() {
         ResponseDTO response = roomService.getAllRooms();
         return ResponseEntity.status(response.getStatusCode()).body(response);
