@@ -93,7 +93,7 @@ public class UserService implements IUserService {
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
 
             response.setStatusCode(200);
-            response.setMessage("User deleted successfully!");
+            response.setMessage("User data returned successfully!");
             response.setUser(userDTO);
         } catch (CustomException ex) {
             response.setStatusCode(404);
@@ -181,7 +181,7 @@ public class UserService implements IUserService {
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
 
             response.setStatusCode(200);
-            response.setMessage("User info successfully!");
+            response.setMessage("User info returned successfully!");
             response.setUser(userDTO);
         } catch (CustomException ex) {
             response.setStatusCode(404);
