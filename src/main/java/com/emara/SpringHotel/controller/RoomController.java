@@ -1,8 +1,6 @@
 package com.emara.SpringHotel.controller;
 
 import com.emara.SpringHotel.dto.ResponseDTO;
-import com.emara.SpringHotel.dto.RoomDTO;
-import com.emara.SpringHotel.service.interfaces.IBookingService;
 import com.emara.SpringHotel.service.interfaces.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,15 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
     @Autowired
     private IRoomService roomService;
-    @Autowired
-    private IBookingService bookingService;
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")

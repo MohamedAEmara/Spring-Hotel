@@ -1,11 +1,9 @@
 package com.emara.SpringHotel.service.interfaces;
 
 import com.emara.SpringHotel.dto.ResponseDTO;
-import com.emara.SpringHotel.dto.RoomDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.math.BigDecimal;
 
 public interface IRoomService {

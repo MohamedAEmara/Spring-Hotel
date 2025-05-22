@@ -8,7 +8,6 @@ import com.emara.SpringHotel.entity.Room;
 import com.emara.SpringHotel.entity.User;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

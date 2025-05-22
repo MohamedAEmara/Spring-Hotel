@@ -2,7 +2,6 @@ package com.emara.SpringHotel.controller;
 
 import com.emara.SpringHotel.dto.ResponseDTO;
 import com.emara.SpringHotel.entity.Booking;
-import com.emara.SpringHotel.service.impl.RoomService;
 import com.emara.SpringHotel.service.interfaces.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
     @Autowired
     private IBookingService bookingService;
-    private RoomService roomService;
 
     @PostMapping("/book/{roomId}/{userId}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import com.emara.SpringHotel.*;
 import java.time.LocalDate;
 
 @Data

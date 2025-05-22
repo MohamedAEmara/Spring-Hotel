@@ -11,13 +11,11 @@ import com.emara.SpringHotel.repositories.BookingRepository;
 import com.emara.SpringHotel.repositories.RoomRepository;
 import com.emara.SpringHotel.repositories.UserRepository;
 import com.emara.SpringHotel.service.interfaces.IBookingService;
-import com.emara.SpringHotel.service.interfaces.IRoomService;
 import com.emara.SpringHotel.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Service
@@ -25,8 +23,6 @@ public class BookingService implements IBookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
-    @Autowired
-    private IRoomService roomService;
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
